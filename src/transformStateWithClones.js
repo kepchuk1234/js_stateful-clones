@@ -8,7 +8,7 @@
  */
 function transformStateWithClones(state, actions) {
   const result = [];
-  let modyState = { ...state };
+  let stateCopy = { ...state };
 
   function removeProp(obj, properties) {
     for (const property of properties) {
@@ -27,7 +27,7 @@ function transformStateWithClones(state, actions) {
   }
 
   for (const action of actions) {
-    const newObj = { ...modyState };
+    const newObj = { ...stateCopy };
 
     switch (action.type) {
       case 'addProperties':
@@ -40,10 +40,14 @@ function transformStateWithClones(state, actions) {
 
       case 'clear':
         clear(newObj);
+        break;
+
+      default:
+        return 'invalid data';
     }
 
     result.push(newObj);
-    modyState = newObj;
+    stateCopy = newObj;
   }
 
   return result;
